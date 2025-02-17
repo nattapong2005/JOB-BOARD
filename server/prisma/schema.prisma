@@ -1,0 +1,52 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model application {
+  id Int         @id @default(autoincrement())
+  userID Int
+  jobpostID Int
+  application_at DateTime
+  status Int
+}
+
+model jobpost {
+  id Int         @id @default(autoincrement())
+  userID Int
+  description String
+  requirement String
+  salary Int
+  location String
+  jobtypeID Int
+  status Int
+}
+
+model jobtype {
+  id Int       @id @default(autoincrement())
+  name String
+  type String
+}
+
+model users {
+  id Int       @id @default(autoincrement())
+  name String
+  lastname String
+  email String @unique
+  password String
+  phone String
+  img String
+  usertypeID Int
+}
+
+model usertype {
+  id Int       @id @default(autoincrement())
+  name String
+}
+
+
+

@@ -1,0 +1,48 @@
+{
+  "categories": [
+    { "title": "Technology", "jobs": 120, "icon": "💻" },
+    { "title": "Marketing", "jobs": 80, "icon": "📈" },
+    { "title": "Design", "jobs": 50, "icon": "🎨" },
+    { "title": "Healthcare", "jobs": 60, "icon": "⚕️" },
+    { "title": "Finance", "jobs": 70, "icon": "💰" },
+    { "title": "Education", "jobs": 40, "icon": "📚" }
+  ],
+  "jobs": [
+    {
+      "title": "Frontend Developer",
+      "company": "Google",
+      "location": "กรุงเทพฯ",
+      "salary": "50,000 - 70,000 บาท",
+      "logo": "./companies_logo/google.png"
+    },
+    {
+      "title": "UX/UI Designer",
+      "company": "Microsoft",
+      "location": "เชียงใหม่",
+      "salary": "40,000 - 60,000 บาท",
+      "logo": "./companies_logo/microsoft.png"
+    },
+    {
+      "title": "Digital Marketing Specialist",
+      "company": "Amazon",
+      "location": "ภูเก็ต",
+      "salary": "45,000 - 65,000 บาท",
+      "logo": "./companies_logo/amazon.png"
+    }
+  ],
+
+  "companies": [
+    { "img": "./companies_logo/google.png" },
+    { "img": "./companies_logo/microsoft.png" },
+    { "img": "./companies_logo/amazon.png" },
+    { "img": "./companies_logo/apple.png" },
+    { "img": "./companies_logo/intel.png" },
+    { "img": "./companies_logo/kplus.png" },
+    { "img": "./companies_logo/ptt.png" },
+    { "img": "./companies_logo/cp.png" },
+    { "img": "./companies_logo/line.png" },
+    { "img": "./companies_logo/scg.png" },
+    { "img": "./companies_logo/singha.png" },
+    { "img": "./companies_logo/samsung.png" }
+  ]
+}
