@@ -3,7 +3,6 @@ const prisma = new PrismaClient();
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = "GAY$#@$@#@#43543434343365655";
 
 exports.login = async (req, res) => {
   try {
@@ -23,10 +22,10 @@ exports.login = async (req, res) => {
         .json({ message: "ผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง" });
     }
 
-    const token = jwt.sign({ userID: user.id }, JWT_SECRET, {
+    const token = jwt.sign({ userID: user.id }, process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
-    
+
     return res.status(200).json({ token });
 
   } catch (error) {
