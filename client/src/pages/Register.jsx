@@ -7,7 +7,6 @@ const Register = () => {
       <div className="flex justify-center items-center h-screen px-4">
         <div className="max-w-5xl w-full bg-white shadow-lg rounded-lg p-6 md:p-12">
           <div className="flex flex-wrap md:flex-nowrap items-center justify-between">
-            {/* Left Section */}
             <div className="w-full md:w-1/2 mb-6 md:mb-0 md:pr-6">
               <h1 className="text-4xl font-bold mb-2">ลงทะเบียน</h1>
               <NavLink to={"/login"} className="mb-4 text-gray-600">

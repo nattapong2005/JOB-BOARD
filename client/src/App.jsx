@@ -6,6 +6,7 @@ import JobPost from "./pages/JobPost";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import PublicRoute from "./components/PublicRoute";
+import AdminHome from './pages/admin/AdminHome';
 const App = () => {
   const [isAuth, setAuth] = useState(!!localStorage.getItem("token"));
   return (
@@ -29,6 +30,7 @@ const App = () => {
             </PublicRoute>
           }
         />
+        <Route path="/admin" element={<AdminHome />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

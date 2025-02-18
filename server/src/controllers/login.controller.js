@@ -22,11 +22,14 @@ exports.login = async (req, res) => {
         .json({ message: "ผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง" });
     }
 
-    const token = jwt.sign({ userID: user.id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
+    const payload = {
+      userID: user.id,
+      role: user.role,
+    }
 
-    return res.status(200).json({ token });
+    const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn: "1h",});
+
+    return res.status(200).json({ payload,token });
 
   } catch (error) {
     console.log(error);

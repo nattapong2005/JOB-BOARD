@@ -40,13 +40,10 @@ model users {
   password String
   phone String
   img String
-  usertypeID Int
+  role String
 }
 
-model usertype {
-  id Int       @id @default(autoincrement())
-  name String
-}
+
 
 
 
