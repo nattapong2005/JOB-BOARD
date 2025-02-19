@@ -1,17 +1,9 @@
 import {React} from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import Dropdown from './Dropdown';
 
 const Navbar = ({isAuth, setAuth}) => {
 
-
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    localStorage.removeItem('role'); 
-    setAuth(false);
-    navigate('/');
-  };
 
   return (
     <div className="p-4">
@@ -33,7 +25,8 @@ const Navbar = ({isAuth, setAuth}) => {
             {isAuth ? (
               <>
               
-              <li className='group relative w-max bg-red-600 py-1.5 px-3 rounded-md hover:bg-red-700'><button onClick={handleLogout} className="flex items-center gap-2  text-white" >ออกจากระบบ</button><span className="absolute -bottom-1 left-0 w-0 "></span></li>
+              {/* <li className='group relative w-max bg-red-600 py-1.5 px-3 rounded-md hover:bg-red-700'><button onClick={handleLogout} className="flex items-center gap-2  text-white" >ออกจากระบบ</button><span className="absolute -bottom-1 left-0 w-0 "></span></li> */}
+              <Dropdown setAuth={setAuth} />
               </>
               ):(
             <>

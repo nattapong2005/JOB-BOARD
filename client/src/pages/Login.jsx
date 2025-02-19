@@ -23,10 +23,10 @@ const Login = ({setAuth}) => {
     try {
 
       const res = await axios.post("http://localhost:9999/login", formData);
-      alert("เข้าสู่ระบบสำเร็จ");
+      // alert("เข้าสู่ระบบสำเร็จ");
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.payload.role);
-      console.log(res.data);
+      // console.log(res.data);
       setAuth(true);
       redirect(res.data.payload.role);
       
