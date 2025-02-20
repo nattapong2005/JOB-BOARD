@@ -1,12 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import data from "../data.json";
 import Layout from "../components/Layout";
 import TypingEffect from "react-typing-effect";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
+import UtilsService from "../services/utils.service";
 
 const Home = () => {
+
+  const [hotwork, setHotwork] = useState([]);
+
+  useEffect(() => {
+
+    const fetchHotwork = async () => {
+      const res = await UtilsService.hotwork();
+      setHotwork(res.data.slice(0, 6));
+    }
+    
+  
+    fetchHotwork();
+  }, []);
+
+
   const settings = {
     dots: true,
     infinite: true,
@@ -73,24 +89,25 @@ const Home = () => {
         <h1 className="font-bold text-lg text-blue-900">Hot work</h1>
         <h2 className="text-3xl font-bold text-gray-800 mb-8">งานที่มาแรง</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {data.categories.map((category, index) => (
+          {hotwork.map((category, index) => (
             <div
               key={index}
               className="flex items-center bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
             >
-              <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full text-blue-600 text-2xl">
+              {/* <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-full text-blue-600 text-2xl">
                 {category.icon}
-              </div>
+              </div> */}
               <div className="ml-4">
                 <h3 className="text-lg font-bold text-blue-900">
-                  {category.title}
+                  {category.name}
                 </h3>
-                <p className="text-sm text-gray-600">{category.jobs}+ งาน</p>
+                {/* <p className="text-sm text-gray-600">{category.jobs}+ งาน</p> */}
               </div>
             </div>
           ))}
         </div>
       </section>
+      
 
       {/* Trusted By Section */}
       <section className="container mx-auto px-4 py-10">

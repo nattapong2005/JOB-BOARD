@@ -12,7 +12,7 @@ const jobtypeRoute = require("./routes/jobtype.route");
 const jobpostRoute = require("./routes/jobpost.route");
 const addimgprofileRoute = require("./routes/addimgprofile.route");
 
-const signupRoute = require("./routes/signup.route");
+const registerRoute = require("./routes/register.route");
 const loginRoute = require("./routes/login.route");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
@@ -35,7 +35,7 @@ app.use("/jobtype", jobtypeRoute);
 app.use("/jobpost", jobpostRoute);
 app.use("/addimgprofile", addimgprofileRoute);
 
-app.use("/signup", signupRoute);
+app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 
 // เมือไม่พบ Route

@@ -2,9 +2,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 const bcrypt = require("bcryptjs");
 
-exports.signup = async (req, res) => {
+exports.register = async (req, res) => {
   const { name, lastname, email, password, phone } = req.body;
-  const usertypeID = 2;
+  const role = "user";
   const hasUser = await prisma.users.findUnique({ where: { email } });
 
   if (hasUser) {
@@ -22,7 +22,7 @@ exports.signup = async (req, res) => {
         password: hashPassword,
         phone,
         img: "",
-        usertypeID,
+        role,
       },
     });
 

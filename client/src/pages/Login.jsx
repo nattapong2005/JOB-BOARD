@@ -1,10 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import AuthService from "../services/auth.service";
 
 const Login = ({setAuth}) => {
-
-
 
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -22,15 +21,16 @@ const Login = ({setAuth}) => {
 
     try {
 
-      const res = await axios.post("http://localhost:9999/login", formData);
-      // alert("เข้าสู่ระบบสำเร็จ");
+      // const res = await axios.post("http://localhost:9999/login", formData);
+      const res = await AuthService.login(formData);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.payload.role);
-      // console.log(res.data);
       setAuth(true);
       redirect(res.data.payload.role);
+
       
     }catch (error) {
+      console.log(error);
       setError('ชื่อผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง');
     }
   }
