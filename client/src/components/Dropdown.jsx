@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import UtilsService from "../services/utils.service";
 
 const Dropdown = ({setAuth}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [profile, setProfile] = useState([]);
+
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -11,12 +14,22 @@ const Dropdown = ({setAuth}) => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem('token'); 
-    localStorage.removeItem('role'); 
+    localStorage.clear();
     setAuth(false);
     navigate('/');
   };
   
+  const fetchProfile = async (token) => {
+    const res = await UtilsService.profile(token);
+    setProfile(res.data);
+  }
+
+  useEffect(() => {
+
+    const token = localStorage.getItem('token');
+    fetchProfile(token);
+
+  }, [token]);
 
   return (
     <div className="relative inline-block text-left">
@@ -26,7 +39,7 @@ const Dropdown = ({setAuth}) => {
         type="button"
       >
         <div className="flex items-center gap-2">
-        <div className="text-gray-600">Test kuy</div>
+        <div className="text-gray-600">{profile.user.name} {profile.user.lastname}</div>
         <img className="w-10" src="../img/profile.png" alt="" />
         </div>
         

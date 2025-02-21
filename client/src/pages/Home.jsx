@@ -11,15 +11,15 @@ const Home = () => {
 
   const [hotwork, setHotwork] = useState([]);
 
+  const fetchHotwork = async () => {
+    const res = await UtilsService.hotwork();
+    setHotwork(res.data.slice(0, 6));
+  }
+
   useEffect(() => {
 
-    const fetchHotwork = async () => {
-      const res = await UtilsService.hotwork();
-      setHotwork(res.data.slice(0, 6));
-    }
-    
-  
     fetchHotwork();
+
   }, []);
 
 
