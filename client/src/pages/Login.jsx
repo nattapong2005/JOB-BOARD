@@ -27,8 +27,6 @@ const Login = ({setAuth}) => {
       localStorage.setItem('role', res.data.payload.role);
       setAuth(true);
       redirect(res.data.payload.role);
-
-      
     }catch (error) {
       console.log(error);
       setError('ชื่อผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง');
@@ -56,13 +54,13 @@ const Login = ({setAuth}) => {
               </NavLink>
               <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                  <label className="block text-sm text-gray-700" htmlFor="username">
-                    ชื่อผู้ใช้งาน
+                  <label className="block text-sm text-gray-700" htmlFor="email">
+                    อีเมล
                   </label>
                   <input
                     type="text"
 
-                    placeholder="Username"
+                    placeholder="Email"
                     className="mt-2 w-full px-4 py-2 border-b-2 border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     name="email"
                     onChange={handleChange}

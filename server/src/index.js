@@ -12,7 +12,6 @@ const jobtypeRoute = require("./routes/jobtype.route");
 const jobpostRoute = require("./routes/jobpost.route");
 const addimgprofileRoute = require("./routes/addimgprofile.route");
 const profileRoute = require("./routes/profile.route");
-const checkLoginRoute = require("./routes/checklogin.route");
 
 const registerRoute = require("./routes/register.route");
 const loginRoute = require("./routes/login.route");
@@ -27,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 //  หน้าแรก
 app.get("/", (req, res) => {
-  res.send("<b>API is online</b>");
+  res.send("<b>JOB BOARD API is online</b>");
 });
 
 // เพิ่มเส้นทาง route ตรงนี้
@@ -37,7 +36,6 @@ app.use("/jobtype", jobtypeRoute);
 app.use("/jobpost", jobpostRoute);
 app.use("/addimgprofile", addimgprofileRoute);
 app.use("/profile", profileRoute);
-app.use("/checklogin", checkLoginRoute);
 
 
 app.use("/register", registerRoute);
