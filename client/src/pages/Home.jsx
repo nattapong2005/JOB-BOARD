@@ -6,6 +6,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import UtilsService from "../services/utils.service";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
 
@@ -219,9 +220,9 @@ const Home = () => {
               แพลตฟอร์มที่รวมงานที่ดี และคนเก่ง ไว้ในที่เดียว
             </p>
             <div className="flex justify-center gap-4">
-              <button className="bg-blue-800 border border-white text-white px-6 py-3 rounded-lg font-bold">
+              <NavLink to={"/register"} className="bg-blue-800 border border-white text-white px-6 py-3 rounded-lg font-bold">
                 ลงทะเบียนตอนนี้
-              </button>
+              </NavLink>
             </div>
           </div>
           <div>

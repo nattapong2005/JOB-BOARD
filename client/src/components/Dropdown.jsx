@@ -40,17 +40,18 @@ const Dropdown = ({setAuth}) => {
         className=""
         type="button"
       >
-        <div className="flex items-center gap-2">
-        <div className="text-gray-600">{profile?.user?.name} {profile?.user?.lastname}</div>
-        <img className="w-10" src="../img/profile.png" alt="" />
-        </div>
-        
+        {/* <img className="w-10" src={profile?.user?.img || "../img/profile.png"} alt="" /> */}
+        <img className="w-10 rounded-full" src={profile?.user?.img ? `/profile/${profile.user.img}` : "/img/profile.png"} alt="Profile" />
       </button>
 
 
       {isOpen && (
         <div className="absolute mt-2 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow-sm w-44 dark:bg-white">
           <ul className="py-2 text-sm text-gray-600">
+            <li>
+            <div className="text-gray-600 px-4 py-2">คุณ {profile?.user?.name} {profile?.user?.lastname}</div>
+            <hr className="mb-2 mt-1" />
+            </li>
             <li>
               <NavLink
                 to={'/profile'}

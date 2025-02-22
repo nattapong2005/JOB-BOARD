@@ -14,6 +14,7 @@ import PublicRoute from "./components/PublicRoute";
 import AdminHome from "./pages/admin/AdminHome";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
+import CreatePost from "./pages/company/CreatePost";
 
 const App = () => {
   const [isAuth, setAuth] = useState(!!localStorage.getItem("token"));
@@ -48,7 +49,25 @@ const App = () => {
           }
         />
 
-        <Route path="/admin" element={<AdminHome />} />
+        {/* Company Route */}
+        <Route
+          path="/createpost"
+          element={
+            <ProtectedRoute needRole="company">
+              <CreatePost />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Admin Route */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute needRole="admin">
+              <AdminHome />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

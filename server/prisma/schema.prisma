@@ -18,6 +18,7 @@ model application {
 model jobpost {
   id Int         @id @default(autoincrement())
   userID Int
+  title String
   description String
   requirement String
   salary Int

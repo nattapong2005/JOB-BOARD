@@ -3,10 +3,9 @@ require("dotenv").config();
 const authMiddleware = async (req, res, next) => {
     try {
 
-        const token = req.header("Authorization").split(" ")[1];
-    
+        const token = req.header("Authorization");
         if (!token) {
-        return res.status(401).json({ message: "ไม่มี Token" });
+        return res.status(401).json({ message: "ไม่พบ Token" });
         }
     
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -14,10 +13,10 @@ const authMiddleware = async (req, res, next) => {
         next();
 
     } catch (error) {
-        console.log(error);
         if(error.name === "TokenExpiredError") {
             return res.status(401).json({ message: "Token หมดอายุ" });
         }else {
+            console.log(error);
             return res.status(500).json({ message: "เกิดข้อผิดพลาด" });
         } 
     }

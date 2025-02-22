@@ -18,7 +18,7 @@ const profile = async (token) => {
 
     const res = await http.get("/profile", {
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: token
       }
     });
     return res;

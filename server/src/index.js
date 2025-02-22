@@ -37,7 +37,6 @@ app.use("/jobpost", jobpostRoute);
 app.use("/addimgprofile", addimgprofileRoute);
 app.use("/profile", profileRoute);
 
-
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
 

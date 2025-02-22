@@ -59,12 +59,12 @@ const Login = ({setAuth}) => {
                   </label>
                   <input
                     type="text"
-
                     placeholder="Email"
                     className="mt-2 w-full px-4 py-2 border-b-2 border-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-400"
                     name="email"
                     onChange={handleChange}
                     value={formData.email}
+                    required
                   />
                 </div>
                 <div className="mb-4">
@@ -78,6 +78,7 @@ const Login = ({setAuth}) => {
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
+                    required
                   />
                 </div>
                 <button type="submit" className="w-full py-2 bg-blue-900 text-white rounded-md shadow-md hover:bg-blue-600 transition mb-4">

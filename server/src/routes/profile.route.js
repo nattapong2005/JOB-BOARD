@@ -5,6 +5,7 @@ const authMiddleware = require('../middlewares/auth');
 
 
 app.get("/", authMiddleware, profile.getUserProfile);
+app.put("/update", authMiddleware, profile.updateProfile);
 
 
 module.exports = app;
