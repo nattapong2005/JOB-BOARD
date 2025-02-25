@@ -15,6 +15,7 @@ import AdminHome from "./pages/admin/AdminHome";
 import Profile from "./pages/Profile";
 import ProtectedRoute from "./components/ProtectedRoute";
 import CreatePost from "./pages/company/CreatePost";
+import PostDetail from './pages/company/PostDetail';
 
 const App = () => {
   const [isAuth, setAuth] = useState(!!localStorage.getItem("token"));
@@ -49,6 +50,8 @@ const App = () => {
           }
         />
 
+        <Route path="/post/:id" element={<PostDetail/>} />
+
         {/* Company Route */}
         <Route
           path="/createpost"
@@ -58,6 +61,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        
 
         {/* Admin Route */}
         <Route

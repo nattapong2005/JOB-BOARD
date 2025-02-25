@@ -33,6 +33,7 @@ const Dropdown = ({setAuth}) => {
   }, []);
   
 
+
   return (
     <div className="relative inline-block text-left">
       <button
@@ -41,7 +42,13 @@ const Dropdown = ({setAuth}) => {
         type="button"
       >
         {/* <img className="w-10" src={profile?.user?.img || "../img/profile.png"} alt="" /> */}
-        <img className="w-10 rounded-full" src={profile?.user?.img ? `/profile/${profile.user.img}` : "/img/profile.png"} alt="Profile" />
+        <img 
+        className="w-10 h-10 rounded-full" 
+        src={`http://localhost:9999/img/${profile?.user?.img || "/img/profile.png"}`} 
+        alt="Profile"
+        onError={(e) => { e.target.src = "/img/profile.png"; }} 
+/>
+
       </button>
 
 

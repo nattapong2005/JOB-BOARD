@@ -20,8 +20,6 @@ const Login = ({setAuth}) => {
     e.preventDefault();
 
     try {
-
-      // const res = await axios.post("http://localhost:9999/login", formData);
       const res = await AuthService.login(formData);
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('role', res.data.payload.role);

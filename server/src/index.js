@@ -4,24 +4,25 @@ require("dotenv").config();
 const port = process.env.PORT || 3000;
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
-// เพิ่มตัวแปร route เส้นทาง
-const userRoute = require("./routes/users.route");
-const usertypeRoute = require("./routes/usertype.route");
-const jobtypeRoute = require("./routes/jobtype.route");
-const jobpostRoute = require("./routes/jobpost.route");
-const addimgprofileRoute = require("./routes/addimgprofile.route");
-const profileRoute = require("./routes/profile.route");
-
-const registerRoute = require("./routes/register.route");
-const loginRoute = require("./routes/login.route");
+const path = require("path");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 
-app.use("/img", express.static("img"));
+// เพิ่มตัวแปร route เส้นทาง
+const userRoute = require("./routes/users.route");
+const jobtypeRoute = require("./routes/jobtype.route");
+const jobpostRoute = require("./routes/jobpost.route");
+const profileRoute = require("./routes/profile.route");
+const registerRoute = require("./routes/register.route");
+const loginRoute = require("./routes/login.route");
+const companyRoute = require("./routes/company.route");
+
+
 app.use(cors());
 app.use(bodyParser.json());
+// app.use("/img", express.static("img"));
+app.use("/img", express.static(path.join(__dirname, "img")));
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //  หน้าแรก
@@ -31,11 +32,10 @@ app.get("/", (req, res) => {
 
 // เพิ่มเส้นทาง route ตรงนี้
 app.use("/users", userRoute);
-app.use("/usertype", usertypeRoute);
 app.use("/jobtype", jobtypeRoute);
 app.use("/jobpost", jobpostRoute);
-app.use("/addimgprofile", addimgprofileRoute);
 app.use("/profile", profileRoute);
+app.use("/company", companyRoute);
 
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);

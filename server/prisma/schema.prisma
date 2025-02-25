@@ -7,44 +7,71 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model application {
-  id Int         @id @default(autoincrement())
-  userID Int
-  jobpostID Int
-  application_at DateTime
-  status Int
+model Application {
+  id             Int      @id @default(autoincrement())
+  userID         Int
+  jobpostID      Int
+  portfolio      String?
+  application_at DateTime @default(now())
+  status        Int
+
+  user          Users    @relation(fields: [userID], references: [id], onDelete: Cascade)
+  jobpost       Jobpost  @relation(fields: [jobpostID], references: [id], onDelete: Cascade)
+
+  @@map("application")  // ชื่อจริงในฐานข้อมูล
 }
 
-model jobpost {
-  id Int         @id @default(autoincrement())
-  userID Int
-  title String
-  description String
-  requirement String
-  salary Int
-  location String
-  jobtypeID Int
-  status Int
+model Jobpost {
+  id           Int      @id @default(autoincrement())
+  companyID       Int
+  title        String
+  description  String
+  requirement  String
+  salary       Int
+  location     String
+  posted_at   DateTime @default(now())
+  jobtypeID    Int
+  status       String
+  company      Company @relation(fields: [companyID], references: [id], onDelete: Cascade)
+  jobtype      Jobtype @relation(fields: [jobtypeID], references: [id], onDelete: Cascade)
+  applications Application[]
+
+  @@map("jobpost")
 }
 
-model jobtype {
-  id Int       @id @default(autoincrement())
+model Jobtype {
+  id   Int    @id @default(autoincrement())
   name String
   type String
+
+  jobposts Jobpost[]  // เชื่อมกับ jobpost
+
+  @@map("jobtype")
 }
 
-model users {
-  id Int       @id @default(autoincrement())
-  name String
+model Users {
+  id       Int    @id @default(autoincrement())
+  name     String
   lastname String
-  email String @unique
+  email    String @unique
   password String
-  phone String
-  img String
-  role String
+  phone    String
+  img      String
+  role     String
+  company   Company?
+  applications Application[]
+
+  @@map("users")
 }
 
-
-
-
-
+model Company {
+  id        Int     @id @default(autoincrement())
+  userID    Int     @unique
+  user      Users   @relation(fields: [userID], references: [id], onDelete: Cascade)
+  name      String
+  description String
+  phone     String
+  address   String
+  jobposts     Jobpost[]
+  @@map("company")
+}

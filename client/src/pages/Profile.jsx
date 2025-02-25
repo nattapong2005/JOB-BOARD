@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import UtilsService from "../services/utils.service";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
 
-  // const [profile, setProfile] = useState([]);
-  // const [formData, setFormData] = useState([{}]);
+  const navigate = useNavigate();
+  const [file, setFile] = useState([]);
+  const token = localStorage.getItem('token');
+  const [previewImage, setPreviewImage] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
     lastname: "",
@@ -22,47 +26,64 @@ const Profile = () => {
   }
 
   const handleChange = (e) => {
-    setFormData({ 
-      ...formData,
-       [e.target.name]: e.target.value });
-
+    if (e.target.name === "img") {
+      const file = e.target.files[0];
+      if (file) {
+        setPreviewImage(URL.createObjectURL(file)); // แสดง Preview
+        setFile(file)
+        setFormData({ ...formData, img: URL.createObjectURL(file) }); 
+      }
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(formData.password !== formData.confirmPassword) {
+    if (formData.password !== formData.confirmPassword) {
       alert("รหัสผ่านไม่ตรงกัน");
       return;
     }
-    console.log(formData);
-  }
-
+    try {
+      if (file && file.name) {
+        const formDataImg = new FormData();
+        formDataImg.append("img", file);
+        await UtilsService.updateProfile(token, formDataImg);
+      } 
+      await UtilsService.updateProfile(token, formData);
+      alert("อัปเดตโปรไฟล์สำเร็จ");
+      navigate("/");
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
+  };
+  
   useEffect(() => { 
-    const token = localStorage.getItem('token');
     if (token) {
       fetchProfile(token);
-      
     }
   }, []);
+
 
   return (
     <Layout>
       <section className="flex justify-center  p-5 mb-5">
         <div className="card shadow-lg w-full max-w-6xl p-6 bg-white rounded-lg">
           <h1 className="text-center font-bold text-3xl mb-5">โปรไฟล์ของคุณ</h1>
-          <form action="" onSubmit={handleSubmit} className="space-y-6">
+          <form  onSubmit={handleSubmit} className="space-y-6" >
           <div className="flex flex-col items-center">
               <img
-                className="w-44 rounded-full object-cover border-2 border-gray-300"
-                src={formData?.img ? `/profile/${formData.img}` : "/img/profile.png"}
+                className="w-44 h-44 rounded-full object-cover border-2 border-gray-300"
+                src={previewImage || `http://localhost:9999/img/${formData.img}`}
                 alt="Profile"
               />
               <label className="mt-3 cursor-pointer bg-gray-100 text-gray-700 text-sm rounded-lg px-4 py-2 border border-gray-300 hover:bg-gray-200">
-              <i class="fa-solid fa-upload"></i> เปลี่ยนรูปโปรไฟล์
+              <i className="fa-solid fa-upload"></i> เปลี่ยนรูปโปรไฟล์
                 <input
                   type="file"
                   name="img"
                   className="hidden"
+                  onChange={handleChange}
                 />
               </label>
             </div>

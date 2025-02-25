@@ -4,7 +4,11 @@ const prisma = new PrismaClient();
 // GET all users
 exports.get = async (req, res) => {
   try {
-    const getAllUser = await prisma.users.findMany({});
+    const getAllUser = await prisma.users.findMany({
+      include: {
+        company: true,
+      }
+    });
 
     if (!getAllUser) {
       return res.status(400).json({ error: "ไม่พบข้อมูลของผู้ใช้งาน" });

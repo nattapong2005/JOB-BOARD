@@ -1,18 +1,18 @@
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-//  GET all posts
 exports.get = async (req, res) => {
   try {
-    const getJobPost = await prisma.jobpost.findMany({
+    const getJobPost = await prisma.company.findMany({
       include: {
-        company: true,
-        jobtype: true,
+        user: true,
       }
     });
+
     if (!getJobPost || getJobPost == "") {
-      return res.status(400).json({ error: "ไม่พบโพสต์งาน" });
+      return res.status(400).json({ error: "ไม่พบบริษัท" });
     }
+
     return res.status(200).json(getJobPost);
   } catch (error) {
     console.log(error);
@@ -34,7 +34,6 @@ exports.getById = async (req, res) => {
         id: parseInt(id),
       },
       include: {
-        company: true,
         jobtype: true,
       }
     });
@@ -53,35 +52,16 @@ exports.getById = async (req, res) => {
 // POST create a post
 exports.create = async (req, res) => {
   try {
-    const status = "new";
-    const {
-      companyID,
-      title,
-      description,
-      requirement,
-      salary,
-      location,
-      jobtypeID,
-    } = req.body;
-    console.log(req.body);
-    if(!companyID && !title && !description && !requirement && !salary && !location && !jobtypeID && !status) {
-       return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบ" });
-    }
+    const { name,userID,} = req.body;
 
-    const createJobPost = await prisma.jobpost.create({
+    const createCompany = await prisma.company.create({
       data: {
-        companyID,
-        title,
-        description,
-        requirement,
-        salary: parseInt(salary),
-        location,
-        jobtypeID: parseInt(jobtypeID),
-        status,
-      },
+        name,
+        userID,
+      }
     });
 
-    if (!createJobPost) {
+    if (!createCompany) {
       return res.status(400).json({ error: "ไม่สามารถสร้างโพสต์ได้" });
     }
     return res.status(200).json({ success: "สร้างโพสต์งานสำเร็จ" });
