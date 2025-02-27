@@ -4,5 +4,4 @@ const register = require('../controllers/register.controller');
 
 app.post("/", register.register);
 
-
 module.exports = app

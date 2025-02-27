@@ -14,7 +14,6 @@ const AdminHome = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [modalAnimation, setModalAnimation] = useState(false);
-  const navigate = useNavigate();
 
   const formatThaiDate = (dateString) => {
     if (!dateString) return "-";
@@ -84,12 +83,23 @@ const AdminHome = () => {
     });
   };
 
+  const customStyles = {
+    headCells: {
+      style: {
+        backgroundColor: "oklch(0.967 0.003 264.542)",
+        color: "#8a8a8a",
+        fontWeight: "bold",
+        fontSize: "15px",
+      },
+    },
+  };
+
   const columns = [
     {
       name: "ลำดับ",
       selector: (row, index) => index + 1,
       sortable: true,
-      width: "80px",
+      width: "90px",
     },
     {
       name: "รายการโพสต์",
@@ -146,6 +156,7 @@ const AdminHome = () => {
           <DataTable
             columns={columns}
             data={filter}
+            customStyles={customStyles}
             highlightOnHover
             pagination
             responsive
@@ -166,7 +177,7 @@ const AdminHome = () => {
             <p className="text-gray-500 text-sm mt-2">
               <span className="font-bold">บริษัท</span> {selectedPost.company.name}
             </p>
-            <p className="text-gray-500">รายละเอียด {selectedPost.description}</p>
+            <p className="text-gray-500"><span className="font-bold">รายละเอียด</span> {selectedPost.description}</p>
             <p className="text-gray-500 text-sm mt-2">
             <span className="font-bold">ประเภท</span> {selectedPost.jobtype.type}
             </p>

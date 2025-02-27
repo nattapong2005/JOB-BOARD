@@ -23,9 +23,20 @@ const register = async (data) => {
   }
 };
 
+const updateRole = async (userID,role) => {
+  try {
+    const res = await http.put(`/users/${userID}/role`, {role}, {
+    });
+    return res;
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+};
+
 const AuthService = {
   login,
   register,
+  updateRole,
 };
 
 export default AuthService;

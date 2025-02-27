@@ -23,11 +23,17 @@ const Login = ({setAuth}) => {
 
       // const res = await AuthService.login(formData);
       await AuthService.login(formData).then((res) => {
-        if(res.status == 200) {
-          localStorage.setItem('token', res.data.token);
-          localStorage.setItem('role', res.data.payload.role);
-          setAuth(true);
-          redirect(res.data.payload.role);
+        if(res.status === 200) {
+          if(res.data.message == "verify") {
+            localStorage.setItem('userID', res.data.userID)
+            showError("กรุณาเลือกบทบาท", "/role-selection");
+            return
+          }else {
+            localStorage.setItem('token', res.data.token);
+            localStorage.setItem('role', res.data.payload.role);
+            setAuth(true);
+            redirect(res.data.payload.role);
+          }
         }
       }).catch((error) => {
         showError("ผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง", "/login");

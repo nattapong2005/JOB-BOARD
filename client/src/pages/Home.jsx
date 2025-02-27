@@ -9,6 +9,31 @@ import UtilsService from "../services/utils.service";
 import { NavLink, useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+  const faqs = [
+    {
+      question: "แพลตฟอร์มนี้เหมาะกับใครบ้าง?",
+      answer: "แพลตฟอร์มนี้เหมาะสำหรับทั้งบริษัทที่ต้องการจ้างงาน และฟรีแลนซ์ที่กำลังมองหางานที่ตรงกับทักษะของตนเอง",
+    },
+    {
+      question: "การสมัครใช้งานมีค่าใช้จ่ายหรือไม่?",
+      answer: "การสมัครสมาชิกและการใช้งานเบื้องต้นไม่มีค่าใช้จ่าย แต่บางฟีเจอร์อาจมีค่าธรรมเนียมเพิ่มเติม",
+    },
+    {
+      question: "ฉันจะหางานที่เหมาะกับฉันได้อย่างไร?",
+      answer: "คุณสามารถค้นหางานโดยใช้คีย์เวิร์ดในช่องค้นหา หรือตรวจสอบงานแนะนำที่ตรงกับโปรไฟล์ของคุณ",
+    },
+    {
+      question: "บริษัทสามารถโพสต์งานได้อย่างไร?",
+      answer: "หลังจากสมัครสมาชิกแล้ว บริษัทสามารถสร้างประกาศงานได้ผ่านทางแดชบอร์ด และจัดการใบสมัครได้อย่างง่ายดาย",
+    },
+    {
+      question: "ฉันจะติดตามสถานะการสมัครงานของฉันได้อย่างไร?",
+      answer: "คุณสามารถดูสถานะการสมัครของคุณได้ที่หน้าประวัติการสมัครงานของคุณในระบบ",
+    },
+  ];
+
+
   const [searchQuery, setSearchQuery] = useState("");
   const [hotwork, setHotwork] = useState([]);
   const [jobs, setJob] = useState([]);
@@ -116,7 +141,7 @@ const Home = () => {
 
       {/* Hot Work Section */}
       <section className="container mx-auto px-4 py-10">
-        <h1 className="font-bold text-lg text-blue-900">Hot work</h1>
+        <h1 className="font-extrabold text-lg text-blue-900">Hot work</h1>
         <h2 className="text-3xl font-bold text-gray-800 mb-8">งานที่มาแรง</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {hotwork.map((category, index) => (
@@ -138,7 +163,7 @@ const Home = () => {
 
       {/* Trusted By Section */}
       <section className="container mx-auto px-4 py-10">
-        <h1 className="font-bold text-lg text-blue-900">Trusted by</h1>
+        <h1 className="font-extrabold text-lg text-blue-900">Trusted by</h1>
         <h2 className="text-3xl font-bold  mb-8">ได้รับความไว้วางใจจาก</h2>
         <Slider {...settings} className="w-full max-w-5xl mx-auto cursor-pointer">
           {data.companies.map((c, index) => (
@@ -150,7 +175,7 @@ const Home = () => {
       </section>
 
       <section className="container mx-auto px-4 py-10">
-        <h1 className="text-blue-900 font-bold">Latest Posts</h1>
+        <h1 className="text-blue-900 font-extrabold">Latest Posts</h1>
         <h2 className="text-3xl font-bold  mb-6">โพสต์ล่าสุด</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {jobs.map((job, index) => (
@@ -202,7 +227,7 @@ const Home = () => {
 
       {/* Main Features */}
       <section className="container mx-auto px-4 py-10">
-        <h1 className="text-blue-900 font-bold">Main Features</h1>
+        <h1 className="text-blue-900 font-extrabold ">Main Features</h1>
         <h2 className="text-3xl font-bold mb-6">ฟีเจอร์หลัก</h2>
         <div className="flex justify-center items-center">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-28">
@@ -242,6 +267,120 @@ const Home = () => {
           </div>
         </div>
       </section>
+
+
+      <section className="container mx-auto px-4 py-10">
+      <h1 className="text-blue-900 font-extrabold  text-lg">FAQ</h1>
+      <h2 className="text-3xl font-bold mb-6">คำถามที่พบบ่อย</h2>
+      <div className="space-y-4">
+        {faqs.map((faq, index) => (
+          <div key={index} className="bg-white p-4 rounded-lg shadow-md cursor-pointer transition duration-300 hover:shadow-lg">
+            <details className="group">
+              <summary className="font-bold text-blue-900 text-lg flex justify-between items-center cursor-pointer">
+                {faq.question}
+                <span className="text-blue-700 group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <p className="text-gray-700 mt-2">{faq.answer}</p>
+            </details>
+          </div>
+        ))}
+      </div>
+    </section>
+
+{/* Slider for Testimonials */}
+<Slider
+  {...{
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    autoplay: true,
+    autoplaySpeed: 1500,
+    slidesToScroll: 1,
+    responsive: [
+      {
+        breakpoint: 1024, // Tablets
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600, // Mobile
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  }}
+  className="w-full max-w-6xl mx-auto mb-10"
+>
+  {[
+    {
+      name: "นัฐพงษ์ สุดเท่",
+      role: "ฟรีแลนซ์",
+      comment: "แพลตฟอร์มนี้ช่วยให้ฉันหางานได้ง่ายขึ้น และยังได้เจอโปรเจกต์ที่ท้าทาย!",
+    },
+    {
+      name: "ขัน สามมิล",
+      role: "HR Manager",
+      comment: "เราพบฟรีแลนซ์ที่ตรงกับความต้องการของบริษัทได้อย่างรวดเร็ว!",
+    },
+    {
+      name: "มาย เกย์ดุ",
+      role: "Graphic Designer",
+      comment: "ชอบการทำงานผ่านแพลตฟอร์มนี้มาก เพราะมีระบบการจัดการที่ดีเยี่ยม!",
+    },
+    {
+      name: "ติ๊ก ชิโร่",
+      role: "Software Engineer",
+      comment: "ระบบนี้ทำให้ฉันได้เจองานที่ตรงกับทักษะของฉันมากขึ้น!",
+    },
+    {
+      name: "เอมมี่ เจ",
+      role: "Marketing Specialist",
+      comment: "แพลตฟอร์มนี้ช่วยให้ฉันขยายเครือข่ายทางธุรกิจได้อย่างง่ายดาย!",
+    },
+    {
+      name: "ต้น นาวา",
+      role: "Web Developer",
+      comment: "รักการทำงานที่นี่! ระบบสนับสนุนดีและโปรเจกต์มีคุณภาพสูง!",
+    },
+    {
+      name: "จูน อลิส",
+      role: "Content Writer",
+      comment: "สะดวก รวดเร็ว และมีโอกาสใหม่ๆ มาให้เลือกเสมอ ฉันแนะนำเลย FastJob!",
+    },
+    {
+      name: "แมน แมน",
+      role: "UI/UX Designer",
+      comment: "การออกแบบแพลตฟอร์มใช้งานง่ายมาก ทำให้การค้นหางานสะดวกสุดๆ!",
+    },
+    {
+      name: "กาย อินดี้",
+      role: "นักพัฒนาเกม",
+      comment: "แพลตฟอร์มนี้เหมาะกับคนทำเกมอย่างผมมาก งานเยอะและตรงกับสายงาน!",
+    },
+    {
+      name: "หญิง พลอย",
+      role: "นักบัญชี",
+      comment: "การจัดการงานและเอกสารในแพลตฟอร์มนี้ดีมาก ใช้งานง่าย!",
+    },
+  ].map((testimonial, index) => (
+    <div key={index} className="p-4">
+      <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow h-50">
+        <div className="mb-4">
+          <h3 className="text-lg font-bold text-blue-900">{testimonial.name}</h3>
+          <p className="text-sm text-gray-600">{testimonial.role}</p>
+        </div>
+        <p className="text-gray-700 text-sm italic">"{testimonial.comment}"</p>
+      </div>
+    </div>
+  ))}
+</Slider>
+
+
+
+      
     </Layout>
   );
 };

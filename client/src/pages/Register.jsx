@@ -29,7 +29,9 @@ const Register = () => {
 
       // const res = await axios.post("http://localhost:9999/signup", formData);
       const res = await AuthService.register(formData);
-      navigate("/login");
+      const userID = res.data.userID
+      localStorage.setItem('userID', userID)
+      navigate("/role-selection");
       
       console.log(res);
     } catch (error) {

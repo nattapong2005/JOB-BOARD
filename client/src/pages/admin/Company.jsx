@@ -2,33 +2,24 @@ import React, { useEffect, useState } from "react";
 import Layout from "./components/Layout";
 import UtilsService from "./../../services/utils.service";
 import DataTable from "react-data-table-component";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { showConfirm, showSuccess } from "../../helpers/sweetalert";
 
-const User = () => {
+const Company = () => {
   const token = localStorage.getItem("token");
-  const [user, setUser] = useState([]);
+  const [company, setCompany] = useState([]);
   const [filter, setFilter] = useState([]);
   const [search, setSearch] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState(null);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [modalAnimation, setModalAnimation] = useState(false);
-  const formatThaiDate = (dateString) => {
-    if (!dateString) return "-";
-    const date = new Date(dateString);
-    return date.toLocaleDateString("th-TH", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  };
 
-  const fetchUsers = async () => {
+
+  const fetchCompany = async () => {
     try {
-      const res = await UtilsService.getUsers();
+      const res = await UtilsService.getCompany();
       if (res.status === 200) {
-        setUser(res.data);
+        setCompany(res.data);
       }
     } catch (error) {
       console.error(error);
@@ -36,21 +27,20 @@ const User = () => {
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchCompany();
   }, []);
 
   useEffect(() => {
-    const filtered = user.filter(
+    const filtered = company.filter(
       (p) => p.name.toLowerCase().includes(search.toLowerCase()) ||
-       (p.lastname && p.email.toLowerCase().includes(search.toLowerCase())) || (p.phone.toLowerCase().includes(search.toLowerCase()))
+       (p.address && p.phone.toLowerCase().includes(search.toLowerCase())) || (p.description.toLowerCase().includes(search.toLowerCase()))
     );
     setFilter(filtered);
-  }, [search, user]);
+  }, [search, company]);
 
   const handleEdit = (row) => {
-    UtilsService.getUserById(row.id).then((res) => {
-      setSelectedUser(res.data);
-      setselectedUser(res.data);
+    UtilsService.getCompanyById(row.id).then((res) => {
+        setSelectedCompany(res.data);
     });
     setIsViewModalOpen(true);
     setTimeout(() => {
@@ -66,14 +56,14 @@ const User = () => {
   };
 
   const handleDelete = async (row) => {
-    showConfirm("คุณแน่ใจหรือไม่?", "หากลบผู้ใช้งานนี้จะไม่สามารถกู้คืนได้", async () => {
+    showConfirm("คุณแน่ใจหรือไม่?", "หากลบบริษัทนี้จะไม่สามารถกู้คืนได้", async () => {
       try {
-        await axios.delete(`http://localhost:9999/users/${row.id}`, {
+        await axios.delete(`http://localhost:9999/company/${row.id}`, {
           headers: {
             Authorization: token,
           },
         });
-        showSuccess("ลบผู้ใช้งานเรียบร้อย", "");
+        showSuccess("ลบบริษัทเรียบร้อย", "");
         fetchUsers();
       } catch (error) {
         console.log(error);
@@ -100,13 +90,13 @@ const User = () => {
       width: "90px",
     },
     {
-      name: "รายชื่อ",
-      cell: (row) => `${row.name} ${row.lastname}`,
+      name: "ชื่อบริษัท",
+      cell: (row) => row.name,
       wrap: true,
     },
     {
-      name: "อีเมล",
-      selector: (row) => row.email,
+      name: "รายละเอียด",
+      selector: (row) => row.description,
       wrap: true,
       hide: "md",
     },
@@ -141,10 +131,10 @@ const User = () => {
     <Layout>
       <section className="container mx-auto p-4">
         <div className="flex flex-col md:flex-row items-center justify-between mb-3">
-          <h1 className="text-xl font-semibold">จัดการผู้ใช้</h1>
+          <h1 className="text-xl font-semibold">รายชื่อบริษัท</h1>
           <input
             type="text"
-            placeholder="🔍 ค้นหาผู้ใช้งาน..."
+            placeholder="🔍 ค้นหาบริษัท..."
             className="py-1.5 px-2 border border-gray-300 rounded-md w-full md:w-64"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -164,7 +154,7 @@ const User = () => {
         </div>
       </section>
 
-      {isViewModalOpen && selectedUser && (
+      {isViewModalOpen && selectedCompany && (
         <div
           className={`fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50 transition-opacity duration-300 ${
             modalAnimation ? "opacity-100" : "opacity-0"
@@ -175,15 +165,15 @@ const User = () => {
               modalAnimation ? "translate-y-0 scale-100 opacity-100" : "translate-y-10 scale-95 opacity-0"
             }`}
           >
-            <h2 className="text-2xl font-semibold mb-3">
-              <i className="fa-solid fa-pen"></i> ผู้ใช้งาน {selectedUser.name}
+            <h2 className="text-xl font-semibold mb-3">
+              <i className="fa-solid fa-pen"></i> บริษัท {selectedCompany.name}
             </h2>
             <hr className="mb-2" />
             <form>
               <input
                 type="text"
                 name="name"
-                value={selectedUser.name || ""}
+                value={selectedCompany.name || ""}
                 // onChange={handleChange}
                 readOnly
                 className="w-full p-2 border rounded-md mb-2"
@@ -192,25 +182,16 @@ const User = () => {
               <input
                 type="text"
                 name="lastname"
-                value={selectedUser.lastname || ""}
+                value={selectedCompany.address || ""}
                 // onChange={handleChange}
                 readOnly
                 className="w-full p-2 border rounded-md mb-2"
                 placeholder="นามสกุล"
               />
               <input
-                type="email"
-                name="email"
-                value={selectedUser.email || ""}
-                // onChange={handleChange}
-                readOnly
-                className="w-full p-2 border rounded-md mb-2"
-                placeholder="อีเมล"
-              />
-              <input
                 type="text"
                 name="phone"
-                value={selectedUser.phone || ""}
+                value={selectedCompany.phone || ""}
                 // onChange={handleChange}
                 readOnly
                 className="w-full p-2 border rounded-md mb-2"
@@ -229,4 +210,4 @@ const User = () => {
   );
 };
 
-export default User;
+export default Company;

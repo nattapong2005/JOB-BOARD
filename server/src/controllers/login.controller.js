@@ -22,6 +22,10 @@ exports.login = async (req, res) => {
         .json({ message: "ผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง" });
     }
 
+    if(!user.role) {
+      return res.status(200).json({ message: "verify", userID: user.id });
+    }
+    
     const payload = {
       userID: user.id,
       role: user.role,

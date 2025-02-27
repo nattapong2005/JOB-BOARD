@@ -79,6 +79,29 @@ const companyProfile = async (id) => {
   }
 };
 
+
+const getCompanyById = async (id) => {
+  try {
+    const res = await http.get(`/company/${id}`, {
+    });
+    return res;
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+};
+
+const getCompany = async () => {
+  try {
+    const res = await http.get(`/company`, {
+    });
+    return res;
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+};
+
+
+
 const getUsers = async () => {
   try {
     const res = await http.get('/users');
@@ -87,6 +110,16 @@ const getUsers = async () => {
     console.error("Error:", error.message);
   }
 };
+
+const getUserById = async (id) => {
+  try {
+    const res = await http.get('/users/' + id);
+    return res;
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+};
+
 
 
 const UtilsService = {
@@ -98,7 +131,10 @@ const UtilsService = {
   jobpost,
   getJobPost,
   getJobDetail,
-  getUsers
+  getUsers,
+  getUserById,
+  getCompany,
+  getCompanyById,
 };
 
 export default UtilsService;

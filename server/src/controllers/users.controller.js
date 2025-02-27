@@ -126,3 +126,24 @@ exports.delete = async (req, res) => {
     return res.status(500).json({ error: "เกิดข้อผิดพลาด" });
   }
 };
+
+
+exports.updateRole = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body; 
+
+  try {
+    if (!role) {
+      return res.status(400).json({ error: "กรุณากำหนด role" });
+    }
+
+    const user = await prisma.users.update({
+      where: { id: parseInt(id, 10) },
+      data: { role },
+    });
+
+    return res.status(200).json({ message: user.role });
+  } catch (error) {
+    return res.status(500).json({ error: "เกิดข้อผิดพลาดในการอัปเดตบทบาท" });
+  }
+};

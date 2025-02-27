@@ -99,7 +99,7 @@ const JobPost = () => {
         <div className="mb-6">
           <input
             type="text"
-            placeholder="ค้นหางาน เช่น ตำแหน่ง, บริษัท, ประเภทงาน"
+            placeholder="ค้นหางาน เช่น, บริษัท, ประเภทงาน"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full px-4 py-2 focus:to-blue-200"

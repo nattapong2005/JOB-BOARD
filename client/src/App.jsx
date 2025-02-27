@@ -15,6 +15,9 @@ import "animate.css";
 import MyPost from "./pages/company/MyPost";
 import MyJob from "./pages/MyJob";
 import User from "./pages/admin/User";
+import Company from "./pages/admin/Company";
+import RoleSelection from "./pages/RoleSelection";
+import CreeateCompany from "./pages/CreateCompany";
 
 const App = () => {
   const [isAuth, setAuth] = useState(!!localStorage.getItem("token"));
@@ -57,7 +60,6 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
         {/* Company Route */}
         <Route
           path="/create-post"
@@ -90,12 +92,22 @@ const App = () => {
           path="/user"
           element={
             <ProtectedRoute needRole="admin">
-            <User />
-          </ProtectedRoute>
+              <User />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/company"
+          element={
+            <ProtectedRoute needRole="admin">
+              <Company />
+            </ProtectedRoute>
           }
         />
         {/* -------------------------- */}
 
+        <Route path="/role-selection" element={<RoleSelection />} />
+        <Route path="/create-company" element={<CreeateCompany />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
