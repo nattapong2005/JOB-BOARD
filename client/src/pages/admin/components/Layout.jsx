@@ -22,7 +22,7 @@ const Layout = ({ children }) => {
 
   return (
     <div className="flex  min-h-screen">
-      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Sidebar isOpen={isOpen} setIsOpen={setIsOpen} isAuth={isAuth} setAuth={setAuth} />
       <div className="flex-grow p-5">
         {children}
         </div>

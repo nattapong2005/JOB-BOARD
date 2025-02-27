@@ -14,6 +14,7 @@ import PostDetail from "./pages/company/PostDetail";
 import "animate.css";
 import MyPost from "./pages/company/MyPost";
 import MyJob from "./pages/MyJob";
+import User from "./pages/admin/User";
 
 const App = () => {
   const [isAuth, setAuth] = useState(!!localStorage.getItem("token"));
@@ -83,6 +84,14 @@ const App = () => {
             <ProtectedRoute needRole="admin">
               <AdminHome />
             </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user"
+          element={
+            <ProtectedRoute needRole="admin">
+            <User />
+          </ProtectedRoute>
           }
         />
         {/* -------------------------- */}

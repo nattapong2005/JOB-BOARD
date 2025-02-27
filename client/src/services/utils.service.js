@@ -79,6 +79,15 @@ const companyProfile = async (id) => {
   }
 };
 
+const getUsers = async () => {
+  try {
+    const res = await http.get('/users');
+    return res;
+  } catch (error) {
+    console.error("Error:", error.message);
+  }
+};
+
 
 const UtilsService = {
   jobtype,
@@ -89,6 +98,7 @@ const UtilsService = {
   jobpost,
   getJobPost,
   getJobDetail,
+  getUsers
 };
 
 export default UtilsService;

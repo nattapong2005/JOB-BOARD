@@ -9,6 +9,7 @@ import { jwtDecode } from "jwt-decode";
 const PostDetail = () => {
   const token = localStorage.getItem('token');
   const userID = token ? jwtDecode(token).userID : null;
+  const role = token ? jwtDecode(token).role : null;
   const navigate = useNavigate();
 
   const { id } = useParams();
@@ -128,7 +129,10 @@ const PostDetail = () => {
                 {/* <p className="text-gray-700 font-medium">• ประเภทงาน: {detail.jobtype?.type || "ไม่ระบุ"}</p> */}
                 <p className="text-gray-700 font-medium">• เงินเดือน: {detail?.salary || "ไม่ระบุ"} บาท</p>
                 {/* อัปโหลดไฟล์ */}
-                <div className="flex flex-col w-60 ms-2">
+             {
+              role !== "company" ? (
+              <>
+                 <div className="flex flex-col w-60 ms-2">
                   <div className="mt-2 ">
                     <label className="block text-lg font-bold mb-2">
                       แฟ้มสะสมผลงาน <span className="text-red-500">(ถ้ามี)</span>
@@ -154,6 +158,13 @@ const PostDetail = () => {
                     )
                   }
                 </div>
+              </>
+              ) : (
+                <>
+                {/* None */}
+                </>
+              )
+             }
               </div>
             </div>
           </>

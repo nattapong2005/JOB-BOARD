@@ -17,13 +17,33 @@ const MyJob = () => {
 
   const formatThaiDate = (dateString) => {
     if (!dateString) return "-";
-    
+
     const date = new Date(dateString);
     return date.toLocaleDateString("th-TH", {
       year: "numeric",
       month: "long",
       day: "numeric",
     });
+  };
+
+  const paginationOptions = {
+    rowsPerPageText: "จำนวนแถวต่อหน้า:", // เปลี่ยนข้อความของ "Rows per page"
+    rangeSeparatorText: "จาก", // เปลี่ยนตัวแบ่งระหว่างตัวเลข
+    selectAllRowsItem: true, // ให้ผู้ใช้เลือกดูทั้งหมดได้
+    selectAllRowsItemText: "ทั้งหมด", // ข้อความของตัวเลือก "All"
+  };
+
+  const getStatusInfo = (status) => {
+    switch (status) {
+      case "NEW":
+        return { text: "รอการตรวจสอบ", color: "bg-yellow-50 text-yellow-700" };
+      case "APPROVED":
+        return { text: "ผ่านการตรวจสอบ", color: "bg-green-50 text-green-700" };
+      case "REJECTED":
+        return { text: "ไม่ผ่านการตรวจสอบ", color: "bg-red-50 text-red-700" };
+      default:
+        return { text: "ไม่พบสถานะ", color: "bg-gray-400 text-white" };
+    }
   };
 
   const customStyles = {
@@ -39,7 +59,7 @@ const MyJob = () => {
 
   const columns = [
     {
-      name: "ลำดับ",
+      name: "โลโก้",
       selector: (row, index) => index + 1,
       sortable: true,
     },
@@ -48,12 +68,15 @@ const MyJob = () => {
       selector: (row) => row.jobpost.title,
     },
     {
-      name: "บริษัท",
-      selector: (row) => row.status,
-    },
-    {
       name: "วันที่สมัคร",
       selector: (row) => formatThaiDate(row.application_at),
+    },
+    {
+      name: "สถานะ",
+      cell: (row) => {
+        const { text, color } = getStatusInfo(row.status);
+        return <span className={`inline-block ${color} text-sm font-medium px-3 py-1 rounded-full`}>{text}</span>;
+      },
     },
     {
       name: "ดำเนินการ",
@@ -74,7 +97,7 @@ const MyJob = () => {
   ];
 
   const handleAction = (row) => {
-    navigate(`/post/${row.id}`);
+    navigate(`/post/${row.jobpost.id}`);
   };
 
   useEffect(() => {
@@ -95,11 +118,10 @@ const MyJob = () => {
   }, []);
 
   useEffect(() => {
-    const filtered = post.filter(
-      (p) =>
-        p.portfolio?.toLowerCase().includes(search.toLowerCase()) ||
-        (p.application_at && p.application_at.toLowerCase().includes(search.toLowerCase()))
-    );
+    const filtered = post.filter((p) => {
+      const formattedDate = formatThaiDate(p.application_at);
+      return formattedDate.includes(search) || p.jobpost?.title.toLowerCase().includes(search.toLowerCase());
+    });
     setFilter(filtered);
   }, [search, post]);
 
@@ -108,8 +130,8 @@ const MyJob = () => {
       <section className="container mx-auto">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <h1 className="text-blue-900 font-extrabold">My Post</h1>
-            <h1 className="text-2xl font-bold">โพสต์ของฉัน</h1>
+            <h1 className="text-blue-900 font-extrabold">My Job</h1>
+            <h1 className="text-2xl font-bold">งานของฉัน</h1>
           </div>
           <input
             type="text"
@@ -121,7 +143,6 @@ const MyJob = () => {
         </div>
         {error && <p className="text-red-600">{error}</p>}
 
-        {/* DataTable แสดงโพสต์ */}
         <div className="shadow-lg">
           <DataTable
             className="bg-red-500"
@@ -130,6 +151,7 @@ const MyJob = () => {
             customStyles={customStyles}
             highlightOnHover
             pagination
+            paginationComponentOptions={paginationOptions}
             responsive
             noDataComponent={<p className="text-red-600 text-lg p-4">ไม่มีพบข้อมูลดังกล่าว</p>}
           />
