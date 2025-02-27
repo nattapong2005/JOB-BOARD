@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import AuthService from "../services/auth.service";
+import { showError, showSuccess } from './../helpers/sweetalert';
 
 const Login = ({setAuth}) => {
 
@@ -18,24 +19,30 @@ const Login = ({setAuth}) => {
 
   const handleSubmit = async (e) => { 
     e.preventDefault();
-
     try {
-      const res = await AuthService.login(formData);
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('role', res.data.payload.role);
-      setAuth(true);
-      redirect(res.data.payload.role);
+
+      // const res = await AuthService.login(formData);
+      await AuthService.login(formData).then((res) => {
+        if(res.status == 200) {
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('role', res.data.payload.role);
+          setAuth(true);
+          redirect(res.data.payload.role);
+        }
+      }).catch((error) => {
+        showError("ผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง", "/login");
+      })
     }catch (error) {
-      console.log(error);
-      setError('ชื่อผู้ใช้งาน หรือ รหัสผ่านไม่ถูกต้อง');
+      // console.log(error);
+      showError(error.message, "/login");
     }
   }
 
   const redirect = (role) => {
     if(role == "admin") {
-      navigate("/admin");
+      showSuccess("เข้าสู่ระบบเรียบร้อย", "/admin");
     }else {
-      navigate("/");
+      showSuccess("เข้าสู่ระบบเรียบร้อย", "/");
     }
   }
 

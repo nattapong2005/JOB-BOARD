@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Layout from "./../../components/Layout";
 import UtilsService from "../../services/utils.service";
+import { showSuccess } from "../../helpers/sweetalert";
 
 const CreatePost = () => {
 
@@ -15,7 +16,6 @@ const CreatePost = () => {
 
   const fetchYourCompany = async () => {
     await UtilsService.profile(token).then((res) => {
-      // console.log(res.data.user.company.name)
       setFormData({
         ...formData,
         companyID: res.data.user.company.id
@@ -61,8 +61,11 @@ const CreatePost = () => {
     e.preventDefault();
     try {
       UtilsService.jobpost(token,formData).then((res) => {
-        alert("สร้างโพสต์เสร็จสิ้น");
-        navigate("/post"); 
+        if(res.status == 200) {
+          showSuccess("สร้างโพสต์เรียบร้อย", "/post");
+        }else {
+          setError("เกิดข้อผิดพลาดในการสร้างโพสต์");
+        }
       })
     } catch (error) {
       console.error(error);

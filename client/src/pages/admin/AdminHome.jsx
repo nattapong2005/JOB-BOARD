@@ -1,11 +1,17 @@
 import React from 'react'
+import Layout from './components/Layout'
+
 
 const AdminHome = () => {
 
   
 
   return (
-    <div>Welcome admin</div>
+    <>
+    <Layout>
+      <h1>lorem1500</h1>
+    </Layout>
+    </>
   )
 }
 

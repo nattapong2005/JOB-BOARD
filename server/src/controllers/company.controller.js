@@ -34,6 +34,7 @@ exports.getById = async (req, res) => {
         id: parseInt(id),
       },
       include: {
+        user: true,
         jobtype: true,
       }
     });

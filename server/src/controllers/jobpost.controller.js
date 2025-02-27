@@ -8,7 +8,7 @@ exports.get = async (req, res) => {
       include: {
         company: true,
         jobtype: true,
-      }
+      },
     });
     if (!getJobPost || getJobPost == "") {
       return res.status(400).json({ error: "ไม่พบโพสต์งาน" });
@@ -36,7 +36,7 @@ exports.getById = async (req, res) => {
       include: {
         company: true,
         jobtype: true,
-      }
+      },
     });
 
     if (!getJobPostById) {
@@ -50,22 +50,43 @@ exports.getById = async (req, res) => {
   }
 };
 
+
+// GET post by Id
+exports.getJobPostByCompanyId = async (req, res) => {
+  try {
+    const { companyID } = req.params;
+    if (isNaN(companyID)) {
+      return res.status(400).json({ error: "ไอดีไม่ถูกต้อง" });
+    }
+
+    const getJobPostByCompanyId = await prisma.jobpost.findMany({
+      where: {
+        companyID: parseInt(companyID),
+      },
+      include: {
+        company: true,
+        jobtype: true,
+      },
+    });
+
+    if (!getJobPostByCompanyId) {
+      return res.status(400).json({ error: "ไม่พบผู้ใช้ไอดี " + companyID });
+    }
+
+    return res.status(200).json(getJobPostByCompanyId);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "เกิดข้อผิดพลาด" });
+  }
+};
+
 // POST create a post
 exports.create = async (req, res) => {
   try {
-    const status = "new";
-    const {
-      companyID,
-      title,
-      description,
-      requirement,
-      salary,
-      location,
-      jobtypeID,
-    } = req.body;
-    console.log(req.body);
-    if(!companyID && !title && !description && !requirement && !salary && !location && !jobtypeID && !status) {
-       return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบ" });
+    const { companyID, title, description, requirement, salary, location, jobtypeID } = req.body;
+
+    if (!companyID && !title && !description && !requirement && !salary && !location && !jobtypeID) {
+      return res.status(400).json({ error: "กรุณากรอกข้อมูลให้ครบ" });
     }
 
     const createJobPost = await prisma.jobpost.create({
@@ -77,7 +98,6 @@ exports.create = async (req, res) => {
         salary: parseInt(salary),
         location,
         jobtypeID: parseInt(jobtypeID),
-        status,
       },
     });
 
@@ -100,15 +120,7 @@ exports.update = async (req, res) => {
       return res.status(400).json({ error: "ไอดีไม่ถูกต้อง" });
     }
 
-    const {
-      userID,
-      description,
-      requirement,
-      salary,
-      location,
-      jobtypeID,
-      status,
-    } = req.body;
+    const { userID, description, requirement, salary, location, jobtypeID, status } = req.body;
     const updateJobPost = await prisma.jobpost.update({
       where: {
         id: parseInt(id),

@@ -35,7 +35,6 @@ const JobPost = () => {
       );
       setJobPosts(updatedJobPosts);
     } catch (error) {
-      
       setError("เกิดข้อผิดพลาดโปรไฟล์")
       console.error(error);
     }
@@ -75,7 +74,7 @@ const JobPost = () => {
           </div>
           {role === "company" && (
             <NavLink 
-              to="/createpost" 
+              to="/create-post" 
               className="px-5 py-2 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 transition duration-300 shadow-md"
             >
               + โพสต์งาน

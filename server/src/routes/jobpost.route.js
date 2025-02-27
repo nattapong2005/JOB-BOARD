@@ -4,6 +4,7 @@ const jobpost = require('../controllers/jobpost.controller');
 
 app.get("/", jobpost.get);
 app.get("/:id",jobpost.getById);
+app.get("/company/:companyID",jobpost.getJobPostByCompanyId);
 app.post("/", jobpost.create);
 app.put("/:id", jobpost.update);
 app.delete("/:id", jobpost.delete);

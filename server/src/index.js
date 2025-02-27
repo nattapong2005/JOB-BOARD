@@ -17,12 +17,13 @@ const profileRoute = require("./routes/profile.route");
 const registerRoute = require("./routes/register.route");
 const loginRoute = require("./routes/login.route");
 const companyRoute = require("./routes/company.route");
+const applicationRoute = require("./routes/application.route")
 
 
 app.use(cors());
-app.use(bodyParser.json());
 // app.use("/img", express.static("img"));
 app.use("/img", express.static(path.join(__dirname, "img")));
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 //  หน้าแรก
@@ -36,6 +37,7 @@ app.use("/jobtype", jobtypeRoute);
 app.use("/jobpost", jobpostRoute);
 app.use("/profile", profileRoute);
 app.use("/company", companyRoute);
+app.use("/application", applicationRoute);
 
 app.use("/register", registerRoute);
 app.use("/login", loginRoute);
